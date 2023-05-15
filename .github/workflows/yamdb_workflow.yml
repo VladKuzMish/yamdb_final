@@ -60,6 +60,7 @@ jobs:
             sudo docker-compose rm web
             sudo docker pull ${{ secrets.DOCKER_USERNAME }}/api_yamdb
             touch infra/nginx/.env
+            echo DJANGO_KEY=${{ secrets.DJANGO_KEY }} >> infra/nginx/.env
             echo DB_ENGINE=${{ secrets.DB_ENGINE }} >> infra/nginx/.env
             echo DB_NAME=${{ secrets.DB_NAME }} >> infra/nginx/.env
             echo POSTGRES_USER=${{ secrets.POSTGRES_USER }} >> infra/nginx/.env
