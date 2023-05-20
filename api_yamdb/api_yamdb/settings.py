@@ -73,7 +73,6 @@ DATABASES = {
     }
 }
 
-'ENGINE': os.getenv('DB_ENGINE', default='django.db.backends.postgresql')
 # Password validation
 
 AUTH_PASSWORD_VALIDATORS = [
