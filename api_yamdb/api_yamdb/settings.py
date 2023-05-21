@@ -1,26 +1,18 @@
 import os
 from datetime import timedelta
+from pathlib import Path
 
-from dotenv import load_dotenv
+BASE_DIR = Path(__file__).resolve().parent.parent
 
-load_dotenv()
+SECRET_KEY = os.getenv('DJANGO_KEY', 'some_key')
 
-REVIEW_CHARFIELD_LENGTH = 200
-
-USER_CHARFIELD_LENGTH = 150
-USER_EMAIL_LENGTH = 254
-
-BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-
-SECRET_KEY = os.getenv('SECRET_KEY',
-                       default='django-insecure-$y*g73l9-oymu8c)!cv(737m*sq7e)(l9&^r3zep^sc+kxb3mt')
-
-DEFAULT_FROM_EMAIL = os.getenv('DEFAULT_FROM_EMAIL',
-                               default='mail@example.com')
-
+# SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-ALLOWED_HOSTS = os.getenv('ALLOWED_HOSTS', default='*')
+ALLOWED_HOSTS = ['158.160.28.169']
+
+
+# Application definition
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -29,12 +21,12 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'reviews.apps.ReviewsConfig',
     'rest_framework',
     'rest_framework_simplejwt',
-    'django_filters',
     'api.apps.ApiConfig',
-    'user.apps.UserConfig',
-    'reviews.apps.ReviewsConfig',
+    'users.apps.UsersConfig',
+    'django_filters',
 ]
 
 MIDDLEWARE = [
@@ -49,7 +41,7 @@ MIDDLEWARE = [
 
 ROOT_URLCONF = 'api_yamdb.urls'
 
-TEMPLATES_DIR = os.path.join(BASE_DIR, "templates")
+TEMPLATES_DIR = BASE_DIR / 'templates'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
@@ -68,17 +60,20 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'api_yamdb.wsgi.application'
 
+# Database
+
 DATABASES = {
     'default': {
-        'ENGINE': os.getenv('DB_ENGINE',
-                            default='django.db.backends.postgresql'),
-        'NAME': os.getenv('DB_NAME', default='postgres'),
-        'USER': os.getenv('POSTGRES_USER', default='postgres'),
-        'PASSWORD': os.getenv('POSTGRES_PASSWORD', default='DefUltPass123'),
-        'HOST': os.getenv('DB_HOST', default=None),
-        'PORT': os.getenv('DB_PORT', default=None)
+        'ENGINE': os.getenv('DB_ENGINE', 'django.db.backends.postgresql'),
+        'NAME': os.getenv('DB_NAME', 'postgres'),
+        'USER': os.getenv('POSTGRES_USER', 'postgres'),
+        'PASSWORD': os.getenv('POSTGRES_PASSWORD', 'password'),
+        'HOST': os.getenv('DB_HOST', 'db'),
+        'PORT': os.getenv('DB_PORT', '5432')
     }
 }
+
+# Password validation
 
 AUTH_PASSWORD_VALIDATORS = [
     {
@@ -95,9 +90,12 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-LANGUAGE_CODE = 'ru'
 
-TIME_ZONE = 'Europe/Moscow'
+# Internationalization
+
+LANGUAGE_CODE = 'en-us'
+
+TIME_ZONE = 'UTC'
 
 USE_I18N = True
 
@@ -105,29 +103,22 @@ USE_L10N = True
 
 USE_TZ = True
 
+
+# Static files (CSS, JavaScript, Images)
+
 STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
-STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, BASE_DIR, 'api/static')
-]
 
-AUTH_USER_MODEL = 'user.CustomUser'
-
-EMAIL_BACKEND = 'django.core.mail.backends.filebased.EmailBackend'
-
-EMAIL_FILE_PATH = os.path.join(BASE_DIR, 'sent_emails')
+AUTH_USER_MODEL = 'users.User'
 
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
         'rest_framework_simplejwt.authentication.JWTAuthentication',
     ),
-    'DEFAULT_FILTER_BACKENDS': [
-        'django_filters.rest_framework.DjangoFilterBackend',
-    ],
-    'DEFAULT_PAGINATION_CLASS':
-        'rest_framework.pagination.LimitOffsetPagination',
+    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
     'PAGE_SIZE': 10,
 }
 
@@ -135,3 +126,7 @@ SIMPLE_JWT = {
     'ACCESS_TOKEN_LIFETIME': timedelta(days=1),
     'AUTH_HEADER_TYPES': ('Bearer',),
 }
+
+EMAIL_BACKEND = 'django.core.mail.backends.filebased.EmailBackend'
+EMAIL_FILE_PATH = os.path.join(BASE_DIR, 'sent_emails')
+DOMAIN_NAME = 'admin@mail.com'
