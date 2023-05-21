@@ -1,34 +1,27 @@
-from rest_framework.permissions import SAFE_METHODS, BasePermission
+from rest_framework import permissions
+from users.models import User
 
 
-class IsAdmin(BasePermission):
-    """Разрешение на доступ к пользователям."""
-
+class IsAdminOnly(permissions.BasePermission):
     def has_permission(self, request, view):
-        return request.user.is_authenticated and request.user.is_admin
+        return (request.user.is_authenticated
+                and (request.user.is_superuser
+                     or request.user.role == User.RoleChoices.ADMIN))
 
 
-class IsAdminOrReadOnly(BasePermission):
-    """Разрешение для ресурса Жанров,
-    Категорий и Произведений.
-    """
-
+class IsAdminOrReadOnly(permissions.BasePermission):
     def has_permission(self, request, view):
-        return (
-            request.method in SAFE_METHODS
-            or (
-                request.user.is_authenticated
-                and request.user.is_admin
-            )
-        )
+        return (request.method in permissions.SAFE_METHODS
+                or (request.user.is_authenticated
+                    and (request.user.is_superuser
+                         or request.user.role
+                         == User.RoleChoices.ADMIN)))
 
 
-class AuthorAndStaffOrReadOnly(BasePermission):
-    """Разрешение для отзывов и комментариев."""
-
+class IsAdminAuthorModeratorOrReadOnly(permissions.BasePermission):
     def has_object_permission(self, request, view, obj):
-        return (
-            request.method in SAFE_METHODS
-            or request.user.is_moderator or request.user.is_admin
-            or request.user == obj.author
-        )
+        return (request.method in permissions.SAFE_METHODS
+                or request.user.role == User.RoleChoices.ADMIN
+                or request.user.role == User.RoleChoices.MODERATOR
+                or obj.author == request.user
+                )

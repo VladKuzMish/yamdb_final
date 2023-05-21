@@ -1,10 +1,15 @@
-from django.core.validators import RegexValidator
+import re
+
+from django.core.exceptions import ValidationError
 
 
-class UnicodeUsernameValidator(RegexValidator):
-    regex = r'^[\w.@+-]+\Z'
-    message = (
-        'Enter a valid username. This value may contain only letters, '
-        'numbers, and @/./+/-/_ characters.'
-    )
-    flags = 0
+def validate_username(value):
+    if value.lower() == 'me':
+        raise ValidationError(
+            'Недопустимое имя пользователя!'
+        )
+    if not bool(re.match(r'^[\w.@+-]+$', value)):
+        raise ValidationError(
+            'Некорректные символы в username'
+        )
+    return value
