@@ -6,17 +6,17 @@ services:
     volumes:
       - db_data:/var/lib/postgresql/data/
     env_file:
-      - .env
+      - ./.env
   web:
     image: mariaby/api_yamdb
     restart: always
     volumes:
-      - static_value:/app/static/
-      - media_value:/app/media/
+      - static_value:/var/html/static/
+      - media_value:/var/html/media/
     depends_on:
       - db
     env_file:
-      - .env
+      - ./.env
 
   nginx:
     image: nginx:1.21.3-alpine
