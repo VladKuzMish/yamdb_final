@@ -17,6 +17,7 @@ SECRET_KEY = os.getenv('SECRET_KEY', 'default')
 DEBUG = False
 
 ALLOWED_HOSTS = ['158.160.19.101']
+PORT = 8000
 
 
 # Application definition
