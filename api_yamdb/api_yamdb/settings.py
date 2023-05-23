@@ -90,15 +90,14 @@ WSGI_APPLICATION = 'api_yamdb.wsgi.application'
 # if POSTGRES_READY:
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': "yambd",
-        'USER': "admin",
-        'PASSWORD': "Barselona1",
-        'HOST': "db",
-        'PORT': "5432"
+        'ENGINE': os.getenv('DB_ENGINE', 'django.db.backends.postgresql'),
+        'NAME': os.getenv('DB_NAME', 'yambd'),
+        'USER': os.getenv('POSTGRES_USER', 'admin'),
+        'PASSWORD': os.getenv('POSTGRES_PASSWORD', 'Barselona1'),
+        'HOST': os.getenv('DB_HOST', 'db'),
+        'PORT': os.getenv('DB_PORT', '5432'),
     }
 }
-
 
 # Password validation
 
