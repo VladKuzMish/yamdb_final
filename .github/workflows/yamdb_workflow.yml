@@ -61,7 +61,7 @@ jobs:
           username: ${{ secrets.SERVER_NAME }}
           key: ${{ secrets.SSH_KEY }}
           script: |
-            cd yamdb_final/infra
+            cd /infra
             sudo docker-compose stop
             sudo docker-compose rm -f web
             sudo docker pull ${{ secrets.USERNAME }}/api_yamdb
@@ -85,3 +85,4 @@ jobs:
           to: ${{ secrets.TELEGRAM_TO }}
           token: ${{ secrets.TELEGRAM_TOKEN }}
           message: ${{ github.workflow }} успешно выполнен!
+ 
