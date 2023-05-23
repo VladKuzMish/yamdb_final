@@ -71,14 +71,31 @@ WSGI_APPLICATION = 'api_yamdb.wsgi.application'
 
 # Database
 
+# DB_NAME = os.environ.get("DB_ENGINE") #database name
+# POSTGRES_USER = os.environ.get("POSTGRES_PASSWORD") # database user password
+# POSTGRES_PASSWORD = os.environ.get("POSTGRES_USER") # database username
+# DB_HOST = os.environ.get("POSTGRES_HOST") # database host
+# DB_PORT = os.environ.get("POSTGRES_PORT") # database port
+
+# POSTGRES_READY = (
+#     DB_NAME is not None
+#     and POSTGRES_PASSWORD is not None
+#     and POSTGRES_USER is not None
+#     and DB_HOST is not None
+#     and DB_PORT is not None
+# )
+
+# print(POSTGRES_READY)
+
+# if POSTGRES_READY:
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'yambd',
-        'USER': 'admin',
-        'PASSWORD': 'Barselona1',
-        'HOST': 'db',
-        'PORT': '5432'
+        'NAME': "yambd",
+        'USER': "admin",
+        'PASSWORD': "Barselona1",
+        'HOST': "db",
+        'PORT': "5432"
     }
 }
 
