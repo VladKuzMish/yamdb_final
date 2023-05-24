@@ -3,9 +3,9 @@ from datetime import timedelta
 from pathlib import Path
 
 from django.conf.global_settings import DATETIME_INPUT_FORMATS
-# from dotenv import load_dotenv
+from dotenv import load_dotenv
 
-# load_dotenv()
+load_dotenv()
 
 
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -16,7 +16,7 @@ SECRET_KEY = os.getenv('SECRET_KEY', 'default')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-ALLOWED_HOSTS = ['51.250.31.39']
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -71,33 +71,17 @@ WSGI_APPLICATION = 'api_yamdb.wsgi.application'
 
 # Database
 
-# DB_NAME = os.environ.get("DB_ENGINE") #database name
-# POSTGRES_USER = os.environ.get("POSTGRES_PASSWORD") # database user password
-# POSTGRES_PASSWORD = os.environ.get("POSTGRES_USER") # database username
-# DB_HOST = os.environ.get("POSTGRES_HOST") # database host
-# DB_PORT = os.environ.get("POSTGRES_PORT") # database port
-
-# POSTGRES_READY = (
-#     DB_NAME is not None
-#     and POSTGRES_PASSWORD is not None
-#     and POSTGRES_USER is not None
-#     and DB_HOST is not None
-#     and DB_PORT is not None
-# )
-
-# print(POSTGRES_READY)
-
-# if POSTGRES_READY:
 DATABASES = {
     'default': {
         'ENGINE': os.getenv('DB_ENGINE', 'django.db.backends.postgresql'),
-        'NAME': os.getenv('DB_NAME', 'yambd'),
-        'USER': os.getenv('POSTGRES_USER', 'admin'),
-        'PASSWORD': os.getenv('POSTGRES_PASSWORD', 'Barselona1'),
+        'NAME': os.getenv('DB_NAME', 'postgres'),
+        'USER': os.getenv('POSTGRES_USER', 'user'),
+        'PASSWORD': os.getenv('POSTGRES_PASSWORD', 'password'),
         'HOST': os.getenv('DB_HOST', 'db'),
-        'PORT': os.getenv('DB_PORT', '5432'),
+        'PORT': os.getenv('DB_PORT', '5432')
     }
 }
+
 
 # Password validation
 
